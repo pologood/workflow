@@ -1,0 +1,16 @@
+
+
+makeDispatchResult(Map<String, Object> context) {
+        boolean cond2 = (Boolean)context.get("cond2Key");
+        DispatchResult result = new DispatchResult();
+
+        ProcessEnum next = null;
+        if (cond2) {
+            next = ProcessEnum.C;
+        } else {
+            next = ProcessEnum.D;
+        }
+
+        result.setNextActivity(next);
+        return result;
+}

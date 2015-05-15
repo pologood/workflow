@@ -3,6 +3,7 @@ package com.jd.cof.workflowvisible.nodes;
 import com.jd.cof.workflowvisible.AfterProcessListener;
 import com.jd.cof.workflowvisible.DispatchStrategy;
 import com.jd.cof.workflowvisible.QueueProcessor;
+import com.jd.cof.workflowvisible.engine.DispatchStrategyFactory;
 import com.jd.cof.workflowvisible.model.Order;
 
 import java.util.*;
@@ -36,4 +37,14 @@ public abstract class AbstractProcessor implements QueueProcessor {
         }
     }
 
+
+    protected DispatchStrategyFactory dispatchStrategyFactory;
+
+    public DispatchStrategyFactory getDispatchStrategyFactory() {
+        return dispatchStrategyFactory;
+    }
+
+    public void setDispatchStrategyFactory(DispatchStrategyFactory dispatchStrategyFactory) {
+        this.dispatchStrategyFactory = dispatchStrategyFactory;
+    }
 }

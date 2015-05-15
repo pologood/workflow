@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd"
        default-autowire="byName">
 
+    <bean id = "abstractDispatch" class = "com.jd.cof.workflowvisible.engine.ScriptingDispatchStrategy" />
+
+    <!--<lang:groovy id="aDecider"  script-source="classpath:groopyScripting/aDecider.groovy"  refresh-check-delay="1000" scope="prototype"/>-->
     <bean id = "startProcessor" class="com.jd.cof.workflowvisible.nodes.startNode.StartProcess" ></bean>
-    <bean id = "aProcessor" class="com.jd.cof.workflowvisible.nodes.aNode.AProcess" ></bean>
-    <bean id = "bProcessor" class="com.jd.cof.workflowvisible.nodes.bNode.BProcess" ></bean>
+
+
+    <lang:groovy id="aDecider"   refresh-check-delay="1000" scope="prototype" >
+        <lang:inline-script>
+            <![CDATA[
+                        import com.jd.cof.workflowvisible.DispatchResult
+                        import com.jd.cof.workflowvisible.ProcessEnum;
+                        import com.jd.cof.workflowvisible.engine.ScriptingDecider
+                        import com.jd.cof.workflowvisible.nodes.aNode.AProcess;
+
+                        class aDecider implements ScriptingDecider {
+                            DispatchResult makeDispatchResult(Map<String, Object> context) {
+                                return new DispatchResult(((Boolean) context.get(AProcess.cond2Key))? ProcessEnum.C: ProcessEnum.D , 0);
+                            }
+                        }
+                    ]]>
+        </lang:inline-script>
+    </lang:groovy>
+
+    <bean id = "aDispatch" parent="abstractDispatch" >
+        <property name="decider" ref="aDecider" />
+    </bean>
+
+    <bean id = "aProcessor" class="com.jd.cof.workflowvisible.nodes.aNode.AProcess" >
+        <property name="dispatchStrategy" ref="aDispatch" />
+    </bean>
+
+    <!--<bean id = "bProcessor" class="com.jd.cof.workflowvisible.nodes.bNode.BProcess" />-->
+
     <bean id = "cProcessor" class="com.jd.cof.workflowvisible.nodes.cNode.CProcess" ></bean>
     <bean id = "dProcessor" class="com.jd.cof.workflowvisible.nodes.dNode.DProcess" ></bean>
     <bean id = "endProcessor" class="com.jd.cof.workflowvisible.nodes.endNode.EndProcess" ></bean>
+
+
+    <lang:groovy id="bDispatchStrategyFactory"    refresh-check-delay="1000" scope="prototype" >
+        <lang:inline-script>
+            <![CDATA[
+            import com.jd.cof.workflowvisible.DispatchResult
+            import com.jd.cof.workflowvisible.DispatchStrategy
+            import com.jd.cof.workflowvisible.ProcessEnum
+            import com.jd.cof.workflowvisible.engine.DispatchStrategyFactory
+            import com.jd.cof.workflowvisible.nodes.bNode.BProcess
+            import org.apache.log4j.Logger
+
+            class BDispatchStrategyFactory implements DispatchStrategyFactory {
+                private Logger logger = Logger.getLogger(BDispatchStrategyFactory.class)
+
+                @Override
+                DispatchStrategy makeDispatch(final Map<String, Object> context) {
+                    logger.info("makeDispatch invoked");
+                    return new DispatchStrategy() {
+                        @Override
+                        DispatchResult decide() {
+                            return new DispatchResult(((Boolean) context.get(BProcess.BProcess_key)) ? ProcessEnum.C : ProcessEnum.End, 0);
+                        }
+                    };
+                }
+            }
+            ]]>
+        </lang:inline-script>
+    </lang:groovy>
+
+    <bean id = "bProcessor" class="com.jd.cof.workflowvisible.nodes.bNode.BProcessWithFactory" >
+        <property name="dispatchStrategyFactory" ref="bDispatchStrategyFactory" />
+    </bean>
 
 </beans>

@@ -22,7 +22,7 @@ public class Main {
     private static final Logger log = Logger.getLogger(Main.class);
     @Autowired
     ArrayBlockingQueue startQueue;
-    int orderNum = 1000;
+    int orderNum = 10;
 
     @Autowired
     QueueProcessor endProcessor;

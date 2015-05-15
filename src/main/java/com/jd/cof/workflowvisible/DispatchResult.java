@@ -7,6 +7,13 @@ public class DispatchResult {
     private ProcessEnum nextActivity;
     private int isFinish;
 
+    public DispatchResult(ProcessEnum nextActivity, int isFinish) {
+        this.nextActivity = nextActivity;
+        this.isFinish = isFinish;
+    }
+
+    public DispatchResult() {
+    }
 
     /**
      * @return the nextActivity
