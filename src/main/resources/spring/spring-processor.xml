@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <bean id = "startProcessor" class="com.jd.cof.workflowvisible.nodes.startNode.StartProcess" ></bean>
+    <bean id = "aProcessor" class="com.jd.cof.workflowvisible.nodes.aNode.AProcess" ></bean>
+    <bean id = "bProcessor" class="com.jd.cof.workflowvisible.nodes.bNode.BProcess" ></bean>
+    <bean id = "cProcessor" class="com.jd.cof.workflowvisible.nodes.cNode.CProcess" ></bean>
+    <bean id = "dProcessor" class="com.jd.cof.workflowvisible.nodes.dNode.DProcess" ></bean>
+    <bean id = "endProcessor" class="com.jd.cof.workflowvisible.nodes.endNode.EndProcess" ></bean>
+
+</beans>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+       
+       <import resource="spring/spring-queue.xml" />
+       <import resource="spring/spring-processor.xml" />
+       <import resource="spring/spring-worker.xml" />
+
+       <bean id="blockingQueueFactory" class="com.jd.cof.workflowvisible.engine.BlockingQueueFactory" >
+              <property name="map" >
+                     <map>
+                            <entry key="Start" value-ref="startQueue"></entry>
+                            <entry key="A" value-ref="aQueue"></entry>
+                            <entry key="B" value-ref="bQueue"></entry>
+                            <entry key="C" value-ref="cQueue"></entry>
+                            <entry key="D" value-ref="dQueue"></entry>
+                            <entry key="End" value-ref="endQueue"></entry>
+                     </map>
+              </property>
+
+       </bean>
+       <bean id="stepBlockingQueue"
+             factory-bean="blockingQueueFactory"
+             factory-method="createInstance"/>
+
+
+       <bean id = "putter" class="com.jd.cof.workflowvisible.engine.ProcessNextPutterImpl" >
+              <property name="stepBlockingQueue" ref="stepBlockingQueue" />
+       </bean>
+
+
+
+
+
+</beans>

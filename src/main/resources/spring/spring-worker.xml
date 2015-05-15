@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <bean id="putter" class="com.jd.cof.workflowvisible.engine.ProcessNextPutterImpl" />
+
+
+    <!-- private QueueProcessor processor; -->
+    <!-- queue -->
+    <bean id="parentRunner" class="com.jd.cof.workflowvisible.engine.ProcessRunner" lazy-init="true" abstract="true">
+        <property name="putter" ref="putter"></property>
+        <property name="threadDelay" value="1000"></property>
+    </bean>
+
+    <bean id="startRunner" parent="parentRunner"> <property name="processor" ref="startProcessor" /> <property name="queue" ref="startQueue" /> </bean>
+    <bean id="aRunner" parent="parentRunner"> <property name="processor" ref="aProcessor" /> <property name="queue" ref="aQueue" /> </bean>
+    <bean id="bRunner" parent="parentRunner"> <property name="processor" ref="bProcessor" /> <property name="queue" ref="bQueue" /> </bean>
+    <bean id="cRunner" parent="parentRunner"> <property name="processor" ref="cProcessor" /> <property name="queue" ref="cQueue" /> </bean>
+    <bean id="dRunner" parent="parentRunner"> <property name="processor" ref="dProcessor" /> <property name="queue" ref="dQueue" /> </bean>
+    <bean id="endRunner" parent="parentRunner"> <property name="processor" ref="endProcessor" /> <property name="queue" ref="endQueue" /> </bean>
+
+
+    <bean id="abstractWorker" class="com.jd.cof.workflowvisible.engine.ThreadPoolExecutorWorker" abstract="true" init-method="start" >
+        <property name="threadNum" value="20"></property>
+    </bean>
+
+    <bean id="startWorker" parent="abstractWorker"> <property name="processRunner" ref="startRunner"/> </bean>
+    <bean id="aWorker" parent="abstractWorker"> <property name="processRunner" ref="aRunner"/> </bean>
+    <bean id="bWorker" parent="abstractWorker"> <property name="processRunner" ref="bRunner"/> </bean>
+    <bean id="cWorker" parent="abstractWorker"> <property name="processRunner" ref="cRunner"/> </bean>
+    <bean id="dWorker" parent="abstractWorker"> <property name="processRunner" ref="dRunner"/> </bean>
+    <bean id="endWorker" parent="abstractWorker"> <property name="processRunner" ref="endRunner"/> </bean>
+
+</beans>

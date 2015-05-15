@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+
+    <bean id="abstractQueue" class="java.util.concurrent.ArrayBlockingQueue" abstract="true">
+        <constructor-arg type="int" value="50"></constructor-arg>
+    </bean>
+
+    <bean id="startQueue" parent="abstractQueue" />
+    <bean id="aQueue" parent="abstractQueue" />
+    <bean id="bQueue" parent="abstractQueue" />
+    <bean id="cQueue" parent="abstractQueue" />
+    <bean id="dQueue" parent="abstractQueue" />
+    <bean id="endQueue" parent="abstractQueue" />
+
+
+
+</beans>
