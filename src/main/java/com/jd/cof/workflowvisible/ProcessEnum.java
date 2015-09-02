@@ -11,7 +11,8 @@ public enum ProcessEnum {
     B(1,"B","B"),
     C(2,"C","C"),
     D(3,"D","D"),
-    End(4,"End","End");
+    End(4,"End","End"),
+    Null(5,"null","null");
 
     // value
     private final int value;

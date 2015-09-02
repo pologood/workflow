@@ -1,0 +1,15 @@
+package com.jd.cof.workflowvisible.nodes.bNode;
+
+import com.jd.cof.workflowvisible.engine.dispatchStrategy.deciderBasisProvider.AbstractDeciderBasisProvider;
+
+import java.util.Random;
+
+/**
+ * Created by wangxichun on 2015/9/2.
+ */
+public class BProvider extends AbstractDeciderBasisProvider {
+
+    public BProvider() {
+        putDeciderInfo("cond3", new Random().nextBoolean());
+    }
+}

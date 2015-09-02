@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd"
+       default-autowire="byName">
+
+
+    <!--<lang:groovy id="aDecider"  script-source="classpath:groopyScripting/aDecider.groovy"  refresh-check-delay="1000" scope="prototype"/>-->
+    <bean id = "startProcessor" class="com.jd.cof.workflowvisible.nodes.startNode.StartProcess" >
+        <property name="dispatchStrategyFactory" ref="startDispatch" />
+    </bean>
+
+
+    <bean id = "aProcessor" class="com.jd.cof.workflowvisible.nodes.aNode.AProcess" >
+        <property name="dispatchStrategyFactory" ref="aDispatch" />
+    </bean>
+
+
+    <bean id = "bProcessor" class="com.jd.cof.workflowvisible.nodes.bNode.BProcess" >
+        <property name="dispatchStrategyFactory" ref="bDispatch" />
+    </bean>
+
+
+    <bean id = "cProcessor" class="com.jd.cof.workflowvisible.nodes.cNode.CProcess" >
+        <property name="dispatchStrategyFactory" ref="cDispatch" />
+    </bean>
+    <bean id = "dProcessor" class="com.jd.cof.workflowvisible.nodes.dNode.DProcess" >
+        <property name="dispatchStrategyFactory" ref="dDispatch" />
+    </bean>
+    <bean id = "endProcessor" class="com.jd.cof.workflowvisible.nodes.endNode.EndProcess" >
+        <property name="dispatchStrategyFactory" ref="endDispatch" />
+    </bean>
+
+
+</beans>

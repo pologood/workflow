@@ -5,6 +5,7 @@ import com.jd.cof.workflowvisible.DispatchStrategy;
 import com.jd.cof.workflowvisible.QueueProcessor;
 import com.jd.cof.workflowvisible.engine.DispatchStrategyFactory;
 import com.jd.cof.workflowvisible.model.Order;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
@@ -12,15 +13,17 @@ import java.util.*;
  * Created by wangxichun on 2015/5/7.
  */
 public abstract class AbstractProcessor implements QueueProcessor {
+    protected final Logger loggger = Logger.getLogger(this.getClass());
+
     protected Set<AfterProcessListener> afterProcessListenerSet = new HashSet<AfterProcessListener>();
 
     public DispatchStrategy process(Order order) throws Throwable {
-        DispatchStrategy result = doProcess(order);
+        doProcess(order);
         afterProcess(order);
-        return result;
+        return dispatchStrategyFactory.makeDispatch();
     }
 
-    public abstract DispatchStrategy doProcess(Order order) throws Throwable;
+    public abstract void doProcess(Order order) throws Throwable;
 
 
     public String getName() {

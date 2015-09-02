@@ -8,6 +8,5 @@ import java.util.Map;
  * Created by wangxichun on 2015/5/14.
  */
 public interface DispatchStrategyFactory {
-
-    DispatchStrategy makeDispatch(Map<String, Object> context);
+    DispatchStrategy makeDispatch();
 }

@@ -4,10 +4,20 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-autowire="byName">
 
+
+       <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+              <property name="locations">
+                     <list>
+                            <value>classpath:config/config.properties</value>
+                     </list>
+              </property>
+       </bean>
+
        
        <import resource="spring/spring-queue.xml" />
        <import resource="spring/spring-processor.xml" />
        <import resource="spring/spring-worker.xml" />
+       <import resource="spring/spring-dispatch.xml" />
 
        <bean id="blockingQueueFactory" class="com.jd.cof.workflowvisible.engine.BlockingQueueFactory" >
               <property name="map" >

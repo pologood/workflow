@@ -15,10 +15,14 @@ public class ProcessNextPutterImpl implements ProcessNextPutter {
     ConcurrentMap<ProcessEnum, BlockingQueue<Order>> stepBlockingQueue;
 
     public void put(ProcessEnum nextStep, Order orderParam) {
+        if (ProcessEnum.Null == nextStep) {
+            return;
+        }
         try {
-            stepBlockingQueue.get(nextStep).put(orderParam);
-        } catch (InterruptedException e) {
-            logger.error(String.format("订单[%s]放到队列[%s]时报错", orderParam.getOrderId(),nextStep), e);
+            stepBlockingQueue.get(nextStep)
+                    .put(orderParam);
+        } catch (Exception e) {
+            logger.error(String.format("ProcessEnum[%s], 订单[%s]放到队列[%s]时报错",nextStep.getName(), orderParam.getOrderId(),nextStep), e);
         }
     }
 

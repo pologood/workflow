@@ -49,7 +49,7 @@ public class ProcessRunner implements Runnable {
             log.info(String.format("Order[%s] by Processor[%s] Done", orderParam.getOrderId(), processor.getName()));
 
             //据decide里的next定位到Queue， 并放进去。
-            if (nextStep != null) {
+            if (nextStep != null || nextStep != ProcessEnum.Null) {
                 putter.put(nextStep, orderParam);
             }
         }
