@@ -13,11 +13,15 @@
               </property>
        </bean>
 
-       
-       <import resource="spring/spring-queue.xml" />
-       <import resource="spring/spring-processor.xml" />
-       <import resource="spring/spring-worker.xml" />
-       <import resource="spring/spring-dispatch.xml" />
+        <bean class = "com.jd.cof.workflowvisible.WorkerContainer" >
+            <property name="processInfoSet">
+                <set>
+                    <bean class = "" />
+                </set>
+            </property>
+        </bean>
+
+
 
        <bean id="blockingQueueFactory" class="com.jd.cof.workflowvisible.engine.BlockingQueueFactory" >
               <property name="map" >
